@@ -37,34 +37,6 @@ function sendSOSMessage(user,latitude,longitude,trackId){
 
 }
 
-function sendTrackMeMessage(user,latitude,longitude,trackId){
-	var gcmregids = [];
-	UserModel.find({email:user},'emergency_contacts',function(err, data){
-		if(data){
-			var emergencyContacts = data.emergency_contacts;
-			emergencyContacts.forEach(function(row){
-					gcmregids.push(row.gcm_reg_id);
-			});
-
-
-			message.addData('message',"Location:"+latitude+","+longitude+"-Track Id:"+trackId);
-			message.addData('title','TRACK ME');
-			message.addData('msgcnt','3'); // Shows up in the notification in the status bar
-			message.addData('soundname','beep.wav'); //Sound to play upon notification receipt - put in the www folder in app
-			//message.delayWhileIdle = true; //Default is false
-			message.timeToLive = 3000;// Duration in seconds to hold in GCM and retry before timing out. Default 4 weeks (2,419,200 seconds) if not specified.
- 
-			sender.send(message, gcmregids, 4, function (result) {
-	    	if(result){
-		    	console.log('Result',result);
-		    }
-		    return result;
-			});	
-
-		}
-	});
-
-}
 
 /**
 *	SAVE USER'S GCM Registration ID
