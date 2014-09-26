@@ -32,6 +32,12 @@ app.get('/acknowledge',tracking.acknowledge);
 app.get('/updateposition',tracking.getallpositions);
 app.get('/getallpositions',tracking.getallpositions);
 
+app.post('/initialnotify',gcm.initialNotify);
+app.post('/gcmregistration',gcm.gcmRegistration);
+app.post('/acknowledge',tracking.acknowledge);
+app.post('/updateposition',tracking.getallpositions);
+app.post('/getallpositions',tracking.getallpositions);
+
 http.createServer(app).listen(3000, function(){
   console.log('Express server listening on port ' + app.get('port'));
 });

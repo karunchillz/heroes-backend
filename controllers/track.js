@@ -7,14 +7,18 @@ function insertHelperTrack(latitude,longitude,user,trackId){
 	var helperTrack = '{user:'+user+',position:{"lat":'+latitude+',"long":'+longitude+'}}';
 	var query = '{_id : trackId}';
 
+	console.log("inersting...");
 	TrackModel.findOne(query,function(err,track){
+		console.log(track);
 		if(track){
 			helperTracks = track.helpers;
 			helperTracks.push(helperTrack);
+			console.log("helper="+helperTracks);
 			track.save(function(err){
 				if(err)
 					console.log(err);
 			});
+			console.log("track="+track);
 		}
 	});
 }
@@ -43,19 +47,25 @@ function updateHelperTrack(latitude,longitude,user,trackId){
 	});
 }
 
-function getAllHelperTracks(trackId){
+function getAllHelperTracks(trackId,res){
 	var projection = 'helpers';
-	var helperTracks = [];
-
-	TrackModel.find(projection,function(err,tracks){
+	//var helperTracks = [];
+	console.log("querying trackid="+trackId);
+    var query = '{_id : trackId}';
+	TrackModel.findOne(query,function(err,tracks){
 		if(!err){
-			tracks.forEach(function(track){
-				helperTracks.push(track.helpers);
-			});
+			//tracks.forEach(function(track){
+				console.log("karun="+tracks.helpers);
+				res.send(JSON.stringify(tracks));
+				//return tracks.helpers;
+
+				//helperTracks.push(tracks.helpers);
+			//});
 		}
+		console.log(err);
 	});
 
-	return helperTracks
+	//return helperTracks
 }
 
 /**
@@ -68,7 +78,8 @@ exports.acknowledge = function(req,res){
 	var trackId = req.param('trackId');
 
 	insertHelperTrack(latitude,longitude,user,trackId);
-
+	var success="{('success:success')}";
+	res.send(success);
 };
 
 /**
@@ -89,7 +100,8 @@ exports.updateposition = function(req,res){
 exports.getallpositions = function(req,res){
 	var trackId = req.param('trackId');
 
-	var tracks = getAllTracks(trackId);
-	res.send(JSON.stringify(tracks));
+	var tracks = getAllHelperTracks(trackId,res);
+	//console.log("json stringify="+tracks);
+	
 
 };

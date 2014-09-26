@@ -70,7 +70,7 @@ exports.initialNotify = function(req,res){
 	var latitude = req.param('latitude');
 	var longitude = req.param('longitude');
 	var user = req.param('user');
-	var type = req.param('type');
+	//var type = req.param('type');
 	var result = null;
 
 	var tracking = new TrackModel({victim: {username: user,longitude: longitude,latitude: latitude}});
@@ -81,12 +81,13 @@ exports.initialNotify = function(req,res){
   		}
   		if(track){
   			console.log('Save Success');
-  			if(type == 'sos'){
+  			//if(type == 'sos'){
   				result = sendSOSMessage(user,latitude,longitude,track._id);
-  			}
-  			else if(type == 'trackme'){
-  				result = sendTrackMeMessage(user,latitude,longitude,track._id);
-  			}
+  				console.log(track._id);
+  			//}
+  			//else if(type == 'trackme'){
+  			//	result = sendTrackMeMessage(user,latitude,longitude,track._id);
+  			//}
   		}
 	});
 
