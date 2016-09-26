@@ -3,7 +3,7 @@ var message = new gcm.Message();
 var mongoose = require('mongoose');
 var UserModel = mongoose.model('UserModel');
 var TrackModel = mongoose.model('TrackModel');
-var serverKey = "AIzaSyBNkJRZwjs9ZQS7pgCDiBBdZx1P3vNOFlg";
+var serverKey = "";
 var sender = new gcm.Sender(serverKey);
 
 function sendSOSMessage(user,latitude,longitude,trackId){
